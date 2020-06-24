@@ -24,13 +24,14 @@ def get_wordlist():
     except IOError:
         return False
 
+
 def hide(word, masked, hack=False):
     #  Print blanks and guessed letters
     for position, letter in enumerate(word):
         if masked[position] == letter:
             print(f'{colors["green"]}{letter}{colors["reset"]}', end=' ')
         elif word[position] == ' ':         #  This is a quick workaround (pt-BR: "gambiarra")
-            masked[position] == letter      #  for open compound words.
+            masked[position] = letter       #  for open compound words.
             print('', end='')
         else:
             print('_', end=' ')
@@ -46,7 +47,7 @@ def hide(word, masked, hack=False):
 def play(secret):
 
     #  Set initial variables
-    hidden = ['_' if letter.isalpha() else letter for letter in secret]
+    hidden = ['_' for letter in secret]
     guessed_letters = []
     turns = 6
 
