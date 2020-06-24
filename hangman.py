@@ -16,7 +16,7 @@ def get_wordlist():
     #  Choose secret word from a wordlist file in the same directory as the script.
     #  If a wordlist file is not provided, the game exits. 
     try:
-        with open(os.path.join(os.path.dirname(__file__), 'compoundwords.txt')) as w:
+        with open(os.path.join(os.path.dirname(__file__), 'wordlist.txt')) as w:
             lines = w.readlines()
             words = [line.strip().upper() for line in lines]
             secret = choice(words)
@@ -41,7 +41,7 @@ def hide(word, masked, hack=False):
     #  If hack mode is on, game will print the secret
     if hack:
         for letter in word:
-            print(f'{colors["gray"]}{letter}{colors["reset"]}', end=' ')
+            print(f'{colors["gray"]}{letter.lower()}{colors["reset"]}', end=' ')
         print()
 
 def play(secret):
