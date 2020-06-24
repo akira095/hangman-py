@@ -16,13 +16,13 @@ def get_wordlist():
     #  Choose secret word from a wordlist file in the same directory as the script.
     #  If a wordlist file is not provided, the game exits. 
     try:
-        with open(os.path.join(os.path.dirname(__file__), 'compoundwords.txt')) as w:
+        with open(os.path.join(os.path.dirname(__file__), 'wordlist.txt')) as w:
             lines = w.readlines()
             words = [line.strip().upper() for line in lines]
             secret = choice(words)
             return secret
     except IOError:
-        return False
+        return 'ERRO: Nenhum dicionário foi encontrado.'
 
 
 def hide(word, masked, hack=False):
@@ -38,11 +38,12 @@ def hide(word, masked, hack=False):
     print('', end='')
     print()
 
-    #  If hack mode is on, game will print the secret
+    #  Game will print the secret if hack mode is on
     if hack:
         for letter in word:
-            print(f'{colors["gray"]}{letter}{colors["reset"]}', end=' ')
+            print(f'{colors["gray"]}{letter.lower()}{colors["reset"]}', end=' ')
         print()
+
 
 def play(secret):
 
@@ -63,44 +64,39 @@ def play(secret):
 
         print()
         guess = input('Tente adivinhar qual é a palavra secreta. Digite uma letra: ').strip().upper()
-        
+
         if guess.isalpha() and len(guess) == 1:
-            
+
             if guess in guessed_letters:
                 print('Você já jogou esta letra.')
-            
+
             else:
                 if guess in secret:
                     for position, letter in enumerate(secret):
                         if guess == letter:
                             hidden[position] = letter
                 else:
-                    if turns != 0:
-                        turns -= 1
-                        print(f'Errado! {colors["red"]}{guess.upper()}{colors["reset"]} não está na palavra.')
-                    else:
-                        break
-                
+                    turns -= 1
+                    print(f'Errado! {colors["red"]}{guess.upper()}{colors["reset"]} não está na palavra.')
+
                 guessed_letters.append(guess)
 
-            if turns > 0:        
+            if turns > 0:
                 print(f'Letras jogadas: {colors["blue"]}{" - ".join(guessed_letters)}{colors["reset"]}')
                 print(f'Você tem {colors["red"]}{turns}{colors["reset"]} chance(s) restantes.')
-        
+
         else:
             print('Você deve digitar uma letra.')
-        
+
         print()
 
     else:
-        print(f'Você perdeu! A resposta correta era {colors["red"]}{secret.lower()}{colors["reset"]}')
+        print(f'Você perdeu! A resposta correta era {colors["red"]}{secret}{colors["reset"]}')
+
 
 def main():
     word = get_wordlist()
-    if word:
-        play(word)
-    else:
-        print('Nenhum dicionário foi encontrado. O programa será encerrado.')
+    play(word)
 
 
 if __name__ == '__main__':
