@@ -16,7 +16,7 @@ def get_wordlist():
     #  Choose secret word from a wordlist file in the same directory as the script.
     #  If a wordlist file is not provided, the game exits. 
     try:
-        with open(os.path.join(os.path.dirname(__file__), 'wordlist.txt')) as w:
+        with open(os.path.join(os.path.dirname(__file__), 'compoundwords.txt')) as w:
             lines = w.readlines()
             words = [line.strip().upper() for line in lines]
             secret = choice(words)
@@ -29,6 +29,9 @@ def hide(word, masked, hack=False):
     for position, letter in enumerate(word):
         if masked[position] == letter:
             print(f'{colors["green"]}{letter}{colors["reset"]}', end=' ')
+        elif word[position] == ' ':         #  This is a quick workaround (pt-BR: "gambiarra")
+            masked[position] == letter      #  for open compound words.
+            print('', end='')
         else:
             print('_', end=' ')
     print('', end='')
@@ -43,7 +46,7 @@ def hide(word, masked, hack=False):
 def play(secret):
 
     #  Set initial variables
-    hidden = ['_' for letter in secret]
+    hidden = ['_' if letter.isalpha() else letter for letter in secret]
     guessed_letters = []
     turns = 6
 
@@ -53,7 +56,7 @@ def play(secret):
         hide(secret, hidden)
 
         #  Player wins if words match
-        if secret == ''.join(hidden):
+        if ''.join(secret) == ''.join(hidden):
             print('Parabéns, você acertou!')
             break
 

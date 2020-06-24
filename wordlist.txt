@@ -11,14 +11,15 @@ firefox
 nvidia
 chrome
 pycharm
+open source
 cinnamon
 wireless
 dropbox
-exploit
 gnome
 desktop
 computer
 openbox
+operating system
 fluxbox
 libreoffice
 transmission
@@ -26,6 +27,7 @@ rhythmbox
 pacman
 pentest
 cybersecurity
+sublime text
 cryptography
 wireshark
 metasploit
